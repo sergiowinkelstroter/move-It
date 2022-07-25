@@ -16,3 +16,10 @@
   align-content: center;
   gap: 6.25rem;
 }
+
+@media screen and (max-width: 500px) {
+  .container section {
+    display: flex;
+    flex-direction: column;
+  }
+}
