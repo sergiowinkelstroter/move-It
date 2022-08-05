@@ -1,18 +1,17 @@
 import { useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
+import { SignGoogleContext } from "../contexts/SignGoogleContext";
 import styles from "../styles/components/Profile.module.css";
 
 export function Profile() {
   const { level } = useContext(ChallengeContext);
+  const { user } = useContext(SignGoogleContext);
 
   return (
     <div className={styles.profileContainer}>
-      <img
-        src="https://github.com/sergiowinkelstroter.png"
-        alt="Sergio Winkelstroter"
-      />
+      <img src={user.photoURL} alt="" />
       <div>
-        <strong>Sergio Winkelstroter</strong>
+        <strong>{user.displayName}</strong>
         <p>
           <img src="icons/level.svg" alt="Level" />
           Level {level}

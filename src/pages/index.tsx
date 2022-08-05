@@ -1,61 +1,37 @@
 import Head from "next/head";
-import { GetServerSideProps } from "next";
 
-import { CompletedChallenges } from "../components/CompletedChallenges";
-import { CountDown } from "../components/CountDown";
-import { ExperienceBar } from "../components/ExperienceBar";
-import { Profile } from "../components/Profile";
-import { ChallengeBox } from "../components/ChallengeBox";
+import { useContext } from "react";
 
-import styles from "../styles/pages/Home.module.css";
-import { CountdownProvider } from "../contexts/CountdownContext";
-import { ChallengesProvider } from "../contexts/ChallengeContext";
+import { GoogleLogo } from "phosphor-react";
 
-interface HomeProps {
-  level: number;
-  currentExperience: number;
-  challengeCompleted: number;
-}
+import LogoIcon from "../components/LogoIcon";
+import SimboloIcon from "../components/SimboloIcon";
 
-export default function Home(props: HomeProps) {
+import styles from "../styles/pages/Login.module.css";
+import { SignGoogleContext } from "../contexts/SignGoogleContext";
+
+export default function Login() {
+  const { handleGoogleSignIn } = useContext(SignGoogleContext);
+
   return (
-    <ChallengesProvider
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengeCompleted={props.challengeCompleted}
-    >
+    <div className={styles.content}>
+      <Head>
+        <title>Login | Moveit</title>
+      </Head>
       <div className={styles.container}>
-        <Head>
-          <title>Inicio | Moveit</title>
-        </Head>
+        <div className={styles.simbolo}>
+          <SimboloIcon />
+        </div>
+        <div className={styles.login}>
+          <LogoIcon />
+          <h2>Bem-vindo</h2>
 
-        <ExperienceBar />
-
-        <CountdownProvider>
-          <section className={styles.section__home}>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <CountDown />
-            </div>
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
+          <button onClick={handleGoogleSignIn}>
+            <GoogleLogo size={32} />
+            <span>Faça login com a sua conta Google</span>
+          </button>
+        </div>
       </div>
-    </ChallengesProvider>
+    </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { level, currentExperience, challengeCompleted } = ctx.req.cookies;
-
-  return {
-    props: {
-      level: Number(level),
-      currentExperience: Number(currentExperience),
-      challengeCompleted: Number(challengeCompleted),
-    },
-  };
-};
